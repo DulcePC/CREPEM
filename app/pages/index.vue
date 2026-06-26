@@ -1,5 +1,5 @@
 <template>
-  <section class="relative min-h-[90vh] flex items-center pt-20">
+  <section class="relative min-h-[90vh] flex items-center md:pt-20 py-20">
     <div class="absolute inset-0 z-0">
       <div class="w-full h-full bg-cover bg-center" data-alt="A professional, high-end architectural shot of a modern glass skyscraper reflecting a deep blue twilight sky. The scene is clean, sharp, and evokes a sense of advanced engineering and corporate reliability. Soft navy gradients overlay the image to integrate it with the dark UI, while maintaining technical clarity in the structures visible." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBk8sqcacaAnoEScfcqbLibF239WvEpMYlnsys17TxGpO4t-4LXNFaLG_KML2h48ksG2COYLq3yIy2qWXdW3U2YI77xaT67nNmxQ6U6OtnQXbJ5OlShONkbtcW-Z6TS2yARuY0FAnEnAGOHbl7bX6nPlpOMdz5qG46t4VPqgFmzM_orRzcpSvXitQ-LGPwUpXXPxmPw8dryPHafBFwLkeCO0o9hRCsLxsvFncI1OubY_RneS4aiwIhCqFeHmPrHTM8kWqWe5mXeNC_M')"></div>
       <div class="absolute inset-0 hero-gradient"></div>
@@ -72,7 +72,7 @@
             <div class="step-transition" id="step1">
               <h2 class="font-display-lg-mobile text-display-lg-mobile text-on-surface mb-2">Solicitar Cotización</h2>
               <p class="font-body-md text-body-md text-on-surface-variant mb-8">Paso 1: ¿Qué servicio necesitas?</p>
-              <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-10">
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
                 <label v-for="service in services" :key="`quote-${service.value}`" class="relative cursor-pointer group">
                   <input v-model="selectedService" class="peer sr-only" name="service" required type="radio" :value="service.value" />
                   <div class="flex flex-col items-center justify-center p-4 rounded-xl border border-outline-variant peer-checked:border-accent-blue peer-checked:bg-accent-blue/10 transition-all">
