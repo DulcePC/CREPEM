@@ -61,7 +61,7 @@
   <section class="py-stack-lg bg-surface relative overflow-hidden" id="cotizar">
     <div class="absolute -top-24 -left-24 w-96 h-96 bg-accent-blue/5 rounded-full blur-3xl"></div>
     <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-primary-container/20 rounded-full blur-3xl"></div>
-    <div class="max-w-4xl mx-auto px-margin-desktop relative z-10">
+    <div class="max-w-4xl mx-auto px-4 relative z-10">
       <div class="glass-card rounded-2xl overflow-hidden">
         <div class="p-base bg-surface-container-high flex gap-1">
           <div class="h-1 flex-1 bg-accent-blue rounded-full transition-all duration-500" id="step-indicator-1"></div>
