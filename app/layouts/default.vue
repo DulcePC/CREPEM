@@ -58,7 +58,7 @@
 <script setup lang="ts">
 
 useHead({
-  title: 'ServiPro | Soluciones Integrales Profesionales',
+  title: 'CREPEM | Soluciones Integrales Profesionales',
   htmlAttrs: { class: 'dark', lang: 'es' },
   meta: [
     { charset: 'utf-8' },
