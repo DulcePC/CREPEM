@@ -4,8 +4,8 @@
     <header class="docked full-width top-0 sticky z-50 bg-surface/80 dark:bg-surface/80 backdrop-blur-md border-b border-outline-variant/30 shadow-sm h-20">
       <nav class="flex justify-between items-center px-margin-desktop w-full max-w-container-max mx-auto h-full">
         <div class="flex items-center gap-4">
-          <img alt="ServiPro Logo" class="h-10 w-auto object-contain" src="/image/logo.jpg" />
-          <span class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim">CREPEM</span>
+          <img alt="ServiPro Logo" class="h-14 w-auto object-contain" src="/image/logo-white.png" />
+          <!-- <span class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim">CREPEM</span> -->
         </div>
         <div class="hidden md:flex items-center gap-stack-md">
           <a class="font-label-md text-label-md text-primary dark:text-primary-fixed-dim border-b-2 border-primary pb-1 hover:text-primary transition-colors" href="#">Inicio</a>
