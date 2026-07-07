@@ -81,7 +81,7 @@
                   </div>
                 </label>
               </div>
-              <button class="w-full bg-[#38BDF8] text-on-primary-fixed py-4 rounded-lg font-label-md text-label-md font-bold shadow-lg shadow-accent-blue/20 hover:brightness-110 active:scale-95 transition-all" @click="nextStep" type="button">
+              <button class="w-full bg-[#38BDF8] text-on-primary-fixed py-4 rounded-lg font-label-md text-label-md font-bold shadow-lg shadow-accent-blue/20 hover:brightness-110 active:scale-95 transition-all disabled:cursor-not-allowed disabled:opacity-60" :disabled="!selectedService" @click="nextStep" type="button">
                 Siguiente Paso
               </button>
             </div>
@@ -92,15 +92,16 @@
               <div class="grid grid-cols-1 md:grid-cols-2 gap-gutter mb-6">
                 <div class="space-y-2">
                   <label class="text-label-sm text-on-surface-variant">Nombre Completo</label>
-                  <input class="w-full bg-surface-container border-outline-variant focus:border-accent-blue focus:ring-accent-blue/20 rounded-lg text-on-surface" placeholder="Ej: Juan Pérez" type="text" />
+                  <input v-model="formData.name" class="w-full bg-surface-container border-outline-variant focus:border-accent-blue focus:ring-accent-blue/20 rounded-lg text-on-surface" name="name" placeholder="Ej: Juan Pérez" required type="text" />
                 </div>
                 <div class="space-y-2">
                   <label class="text-label-sm text-on-surface-variant">Teléfono</label>
-                  <input class="w-full bg-surface-container border-outline-variant focus:border-accent-blue focus:ring-accent-blue/20 rounded-lg text-on-surface" placeholder="+54 9 11 ..." type="tel" />
+                  <input v-model="formData.phone" class="w-full bg-surface-container border-outline-variant focus:border-accent-blue focus:ring-accent-blue/20 rounded-lg text-on-surface" name="phone" placeholder="+54 9 11 ..." required type="tel" />
                 </div>
                 <div class="space-y-2">
                   <label class="text-label-sm text-on-surface-variant">Tipo de Propiedad</label>
-                  <select class="w-full bg-surface-container border-outline-variant focus:border-accent-blue focus:ring-accent-blue/20 rounded-lg text-on-surface">
+                  <select v-model="formData.propertyType" class="w-full bg-surface-container border-outline-variant focus:border-accent-blue focus:ring-accent-blue/20 rounded-lg text-on-surface" name="propertyType" required>
+                    <option disabled value="">Selecciona opción</option>
                     <option>Residencial / Hogar</option>
                     <option>Comercial / Negocio</option>
                     <option>Industrial</option>
@@ -108,15 +109,18 @@
                 </div>
                 <div class="space-y-2 md:col-span-2">
                   <label class="text-label-sm text-on-surface-variant">Mensaje / Descripción</label>
-                  <textarea class="w-full bg-surface-container border-outline-variant focus:border-accent-blue focus:ring-accent-blue/20 rounded-lg text-on-surface" placeholder="¿En qué podemos ayudarte?" rows="4"></textarea>
+                  <textarea v-model="formData.message" class="w-full bg-surface-container border-outline-variant focus:border-accent-blue focus:ring-accent-blue/20 rounded-lg text-on-surface" name="message" placeholder="¿En qué podemos ayudarte?" required rows="4"></textarea>
                 </div>
               </div>
+              <p v-if="submitError" class="mb-6 rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-200">
+                {{ submitError }}
+              </p>
               <div class="flex gap-4">
                 <button class="flex-1 border border-outline-variant text-on-surface py-4 rounded-lg font-label-md text-label-md font-bold hover:bg-surface-container transition-all" @click="prevStep" type="button">
                   Volver
                 </button>
-                <button class="flex-[2] bg-[#38BDF8] text-on-primary-fixed py-4 rounded-lg font-label-md text-label-md font-bold shadow-lg shadow-accent-blue/20 hover:brightness-110 active:scale-95 transition-all" id="submitBtn" type="submit">
-                  Enviar Solicitud
+                <button class="flex-[2] bg-[#38BDF8] text-on-primary-fixed py-4 rounded-lg font-label-md text-label-md font-bold shadow-lg shadow-accent-blue/20 hover:brightness-110 active:scale-95 transition-all disabled:cursor-wait disabled:opacity-60" :disabled="isSubmitting" id="submitBtn" type="submit">
+                  {{ isSubmitting ? 'Enviando...' : 'Enviar Solicitud' }}
                 </button>
               </div>
             </div>
@@ -129,6 +133,9 @@
               <p class="font-body-md text-body-md text-on-surface-variant mb-8 max-w-sm">
                 Un asesor técnico se pondrá en contacto contigo en las próximas 24 horas hábiles.
               </p>
+              <a v-if="whatsappLink" :href="whatsappLink" class="mb-4 inline-flex rounded-lg bg-green-500 px-6 py-3 font-label-md font-bold text-white hover:brightness-110" rel="noopener noreferrer" target="_blank">
+                Enviar también por WhatsApp
+              </a>
               <button class="text-accent-blue font-label-md hover:underline" @click="resetForm" type="button">
                 Realizar otra consulta
               </button>
@@ -177,6 +184,15 @@
 
 <script setup lang="ts">
 const selectedService = ref('')
+const isSubmitting = ref(false)
+const submitError = ref('')
+const whatsappLink = ref('')
+const formData = reactive({
+  name: '',
+  phone: '',
+  propertyType: '',
+  message: ''
+})
 
 function scrollToSection(id: string) {
   document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
@@ -191,7 +207,7 @@ const services = [
   {
     name: 'Climatización y Aire Acondicionado',
     icon: 'ac_unit',
-    description: 'Instalación, mantenimiento preventivo y reparación de sistemas centrales e individuales.',
+    description: 'Desde la correcta selección e instalación del sistema según sus necesidades hasta los mantenimientos y reparaciones pertinentes a cada situación.',
     value: 'climatizacion'
   },
   {
@@ -201,32 +217,22 @@ const services = [
     value: 'electricidad'
   },
   {
-    name: 'Carpintería',
-    icon: 'handyman',
-    description: 'Diseño de mobiliario a medida, reparaciones estructurales y acabados de lujo en madera.',
-    value: 'carpinteria'
-  },
-  {
     name: 'Electrodomésticos y Domótica',
     icon: 'settings_input_component',
     description: 'Automatización de espacios y reparación técnica de equipos de última generación.',
     value: 'domotica'
   },
   {
-    name: 'Pintura',
-    icon: 'format_paint',
-    description: 'Aplicación de recubrimientos técnicos, texturizados y acabados decorativos profesionales.',
-    value: 'pintura'
-  },
-  {
-    name: 'Diseño Integral',
+    name: 'Diseño Arquitectonico',
     icon: 'straighten',
-    description: 'Planificación de espacios comerciales y residenciales con enfoque en funcionalidad.',
-    value: 'diseno_integral'
+    description: 'Diseñamos espacios funcionales, estéticos y eficientes, adaptados a las necesidades de cada proyecto.',
+    value: 'diseno_arquitectonico'
   }
 ]
 
 function nextStep() {
+  if (!selectedService.value) return
+
   const step1 = document.getElementById('step1')
   const step2 = document.getElementById('step2')
   const indicator2 = document.getElementById('step-indicator-2')
@@ -246,6 +252,8 @@ function nextStep() {
 }
 
 function prevStep() {
+  submitError.value = ''
+
   const step1 = document.getElementById('step1')
   const step2 = document.getElementById('step2')
   const indicator2 = document.getElementById('step-indicator-2')
@@ -264,11 +272,33 @@ function prevStep() {
   }, 400)
 }
 
-function handleSubmit() {
+async function handleSubmit() {
   const step2 = document.getElementById('step2')
   const success = document.getElementById('successState')
 
   if (!step2 || !success) return
+  if (isSubmitting.value) return
+
+  submitError.value = ''
+  isSubmitting.value = true
+
+  try {
+    const response = await $fetch<{ ok: boolean; whatsappLink?: string }>('/api/contact', {
+      method: 'POST',
+      body: {
+        service: selectedService.value,
+        ...formData
+      }
+    })
+
+    whatsappLink.value = response.whatsappLink || ''
+  } catch (error) {
+    submitError.value = error instanceof Error ? error.message : 'No se pudo enviar solicitud.'
+    isSubmitting.value = false
+    return
+  }
+
+  isSubmitting.value = false
 
   step2.classList.add('opacity-0')
   setTimeout(() => {
@@ -286,6 +316,13 @@ function resetForm() {
 
   form?.reset()
   selectedService.value = ''
+  isSubmitting.value = false
+  submitError.value = ''
+  whatsappLink.value = ''
+  formData.name = ''
+  formData.phone = ''
+  formData.propertyType = ''
+  formData.message = ''
   success?.classList.add('hidden')
   step2?.classList.add('hidden', 'opacity-0', 'translate-x-8')
   step1?.classList.remove('hidden', 'opacity-0', '-translate-x-8')
