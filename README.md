@@ -1,75 +1,22 @@
-# Nuxt Minimal Starter
+# Crepem
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Formulario web en Nuxt. Flujo actual:
 
-## Setup
+- envia lead a Web3Forms directo desde frontend
+- incluye email del cliente para responderle desde correo negocio
+- arma link de WhatsApp en cliente
 
-Make sure to install dependencies:
+## Variables
+
+Crea `.env` desde `.env.example`.
 
 ```bash
-# npm
-npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
+NUXT_PUBLIC_WEB3FORMS_ACCESS_KEY=tu_access_key_de_web3forms
+NUXT_PUBLIC_WHATSAPP_NUMBER=18095551234
 ```
 
-## Development Server
-
-Start the development server on `http://localhost:3000`:
+## Desarrollo
 
 ```bash
-# npm
-npm run dev
-
-# pnpm
 pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
 ```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.

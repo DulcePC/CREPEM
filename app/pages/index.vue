@@ -95,6 +95,10 @@
                   <input v-model="formData.name" class="w-full bg-surface-container border-outline-variant focus:border-accent-blue focus:ring-accent-blue/20 rounded-lg text-on-surface" name="name" placeholder="Ej: Juan Pérez" required type="text" />
                 </div>
                 <div class="space-y-2">
+                  <label class="text-label-sm text-on-surface-variant">Correo Electrónico</label>
+                  <input v-model="formData.email" class="w-full bg-surface-container border-outline-variant focus:border-accent-blue focus:ring-accent-blue/20 rounded-lg text-on-surface" name="email" placeholder="tu@correo.com" required type="email" />
+                </div>
+                <div class="space-y-2">
                   <label class="text-label-sm text-on-surface-variant">Teléfono</label>
                   <input v-model="formData.phone" class="w-full bg-surface-container border-outline-variant focus:border-accent-blue focus:ring-accent-blue/20 rounded-lg text-on-surface" name="phone" placeholder="+54 9 11 ..." required type="tel" />
                 </div>
@@ -183,12 +187,14 @@
 </template>
 
 <script setup lang="ts">
+const config = useRuntimeConfig()
 const selectedService = ref('')
 const isSubmitting = ref(false)
 const submitError = ref('')
 const whatsappLink = ref('')
 const formData = reactive({
   name: '',
+  email: '',
   phone: '',
   propertyType: '',
   message: ''
@@ -201,6 +207,19 @@ function scrollToSection(id: string) {
 function selectServiceAndScroll(service: string) {
   selectedService.value = service
   scrollToSection('cotizar')
+}
+
+function buildLeadMessage() {
+  return [
+    'Nueva solicitud desde crepem',
+    '',
+    `Servicio: ${selectedService.value}`,
+    `Nombre: ${formData.name}`,
+    `Email: ${formData.email}`,
+    `Telefono: ${formData.phone}`,
+    `Propiedad: ${formData.propertyType}`,
+    `Mensaje: ${formData.message}`
+  ].join('\n')
 }
 
 const services = [
@@ -283,15 +302,32 @@ async function handleSubmit() {
   isSubmitting.value = true
 
   try {
-    const response = await $fetch<{ ok: boolean; whatsappLink?: string }>('/api/contact', {
+    const web3formsAccessKey = String(config.public.web3formsAccessKey ?? '').trim()
+
+    if (!web3formsAccessKey) {
+      throw new Error('Falta NUXT_PUBLIC_WEB3FORMS_ACCESS_KEY.')
+    }
+
+    const response = await $fetch<{ success?: boolean; message?: string }>('https://api.web3forms.com/submit', {
       method: 'POST',
       body: {
+        access_key: web3formsAccessKey,
+        subject: `Nueva solicitud de ${formData.name}`,
+        from_name: 'Crepem Web',
+        replyto: formData.email,
         service: selectedService.value,
         ...formData
       }
     })
 
-    whatsappLink.value = response.whatsappLink || ''
+    if (!response.success) {
+      throw new Error(response.message || 'Web3Forms rechazo solicitud.')
+    }
+
+    const whatsappNumber = String(config.public.whatsappNumber ?? '').replace(/\D/g, '')
+    whatsappLink.value = whatsappNumber
+      ? `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(buildLeadMessage())}`
+      : ''
   } catch (error) {
     submitError.value = error instanceof Error ? error.message : 'No se pudo enviar solicitud.'
     isSubmitting.value = false
@@ -320,6 +356,7 @@ function resetForm() {
   submitError.value = ''
   whatsappLink.value = ''
   formData.name = ''
+  formData.email = ''
   formData.phone = ''
   formData.propertyType = ''
   formData.message = ''
