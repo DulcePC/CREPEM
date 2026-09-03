@@ -4,7 +4,7 @@
       <div class="w-full h-full bg-cover bg-center" data-alt="A professional, high-end architectural shot of a modern glass skyscraper reflecting a deep blue twilight sky. The scene is clean, sharp, and evokes a sense of advanced engineering and corporate reliability. Soft navy gradients overlay the image to integrate it with the dark UI, while maintaining technical clarity in the structures visible." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBk8sqcacaAnoEScfcqbLibF239WvEpMYlnsys17TxGpO4t-4LXNFaLG_KML2h48ksG2COYLq3yIy2qWXdW3U2YI77xaT67nNmxQ6U6OtnQXbJ5OlShONkbtcW-Z6TS2yARuY0FAnEnAGOHbl7bX6nPlpOMdz5qG46t4VPqgFmzM_orRzcpSvXitQ-LGPwUpXXPxmPw8dryPHafBFwLkeCO0o9hRCsLxsvFncI1OubY_RneS4aiwIhCqFeHmPrHTM8kWqWe5mXeNC_M')"></div>
       <div class="absolute inset-0 hero-gradient"></div>
     </div>
-    <div class="relative z-10 w-full max-w-container-max mx-auto px-margin-desktop grid grid-cols-1 lg:grid-cols-2 gap-stack-lg items-center">
+    <div class="relative z-10 w-full max-w-container-max mx-auto lg:px-12 md:px-8 px-4 grid grid-cols-1 lg:grid-cols-2 gap-stack-lg items-center">
       <div class="flex flex-col gap-6">
         <span class="inline-flex items-center px-3 py-1 rounded-full bg-primary-container text-accent-blue text-label-sm font-label-sm border border-accent-blue/30 w-fit">
           Líderes en Mantenimiento Técnico
@@ -40,7 +40,7 @@
   </section>
 
   <section class="py-stack-lg bg-surface-container-low" id="servicios">
-    <div class="max-w-container-max mx-auto px-margin-desktop">
+    <div class="max-w-container-max mx-auto lg:px-12 md:px-8 px-4">
       <div class="text-center mb-16">
         <h2 class="font-headline-md text-headline-md text-on-surface mb-4">Nuestros Servicios Especializados</h2>
         <div class="h-1 w-20 bg-accent-blue mx-auto rounded-full"></div>
