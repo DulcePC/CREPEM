@@ -41,24 +41,19 @@
           <p class="font-body-md text-body-md text-on-surface-variant max-w-xs">Excelencia en servicios de mantenimiento para infraestructuras críticas.</p>
         </div>
         <div class="flex flex-wrap gap-8">
-          <div class="flex flex-col gap-2">
+          <!-- <div class="flex flex-col gap-2">
             <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">Navegación</span>
             <a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Privacidad</a>
             <a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Términos</a>
-          </div>
+          </div> -->
           <div class="flex flex-col gap-2">
             <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">Atención</span>
-            <a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Soporte</a>
-            <a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Contacto</a>
+            <a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" v-if="whatsappLink" :href="whatsappLink">Contacto</a>
           </div>
         </div>
       </div>
       <div class="flex flex-col md:flex-row justify-between items-center gap-4 py-4">
         <p class="font-label-sm text-label-sm text-on-surface-variant opacity-80 hover:opacity-100 transition-opacity">© {{ new Date().getFullYear() }} CREPEM. Todos los derechos reservados.</p>
-        <!-- <div class="flex gap-4">
-          <span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors">language</span>
-          <span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors">public</span>
-        </div> -->
       </div>
       </div>
     </footer>
